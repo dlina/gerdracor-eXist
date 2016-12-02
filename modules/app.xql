@@ -1,13 +1,16 @@
 xquery version "3.1";
-
 module namespace app="http://dlina.github.io/templates";
-
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="http://dlina.github.io/config" at "config.xqm";
-
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace xhtml="http://www.w3.org/1999/xhtml";
+declare default element namespace "http://www.w3.org/1999/xhtml";
 
-declare variable $app:sortKey := request:get-parameter('sortkey', '3');
+declare function app:menuitem($node as node(), $model as map(*)) {
+if( sm:get-user-groups( xmldb:get-current-user() ) = "dba" )
+then <xhtml:li><xhtml:a href="" title="reload from git">&#8634;</xhtml:a></xhtml:li>
+else ()
+};
 
 declare function app:table($node as node(), $model as map(*)) as map(*) {
     let $items :=
@@ -68,9 +71,24 @@ declare function app:tableRow($node as node(), $model as map(*)) {
             </tr>}
     </tbody>
 };
+declare function local:render($nodes) {
+for $node in $nodes
+return
+    typeswitch ( $node )
+    case text() return $node
+    default return
+        element {"tei-" || $node/local-name()} {
+            for $attrib in $node/@*
+            return
+                attribute {"tei-" || $attrib/local-name()} {
+                    string($attrib)
+                },
+            local:render($node/node())
+        }
+};
 
 declare function app:view($node as node(), $model as map(*), $id) {
 let $tei := collection($config:data-root)//tei:idno[. = $id]/ancestor::tei:TEI
 return
-    $tei//tei:text
+    local:render($tei)
 };

@@ -1,2 +1,42 @@
+/* DLINA TEI CSS */
+
+tei-tei {
+    font-family: serif;
+}
+tei-tei, tei-teiHeader, tei-p, tei-l, tei-lg, tei-title, tei-sp, tei-speaker {
+    display: block;
+}
+
+tei-hi{
+    display: inline;
+}
+
+tei-teiHeader::before {
+    background-color: grey;
+    color: white;
+    content: "teiHeader:";
+    position: absolute;
+    top: -20px;
+}
+tei-teiHeader {
+    border: 2px solid grey;
+    font-family: sans-serif;
+}
+tei-listPerson {
+    display:block;
+}
+
+tei-listPerson > * {
+    display:block;
+    margin-left: 20px;
+}
+tei-speaker {
+    letter-spacing: 2px;
+    margin-left: -20px;
+}
+tei-desc > * {
+    background-color: orange;
+}
+
 footer .poweredby { float: right; margin: 33px 10px 0 0;}
 footer .poweredby img { width: 120px; }
