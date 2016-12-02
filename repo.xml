@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>nl</description>
-    <author>mgoebel</author>
-    <website/>
+    <description>eXist-db application for managing the GerDraCor - German Drama Corpus</description>
+    <author>Mathias Göbel</author>
+    <author>Dario Kampkaspar</author>
+    <website>http://dlina.github.io</website>
     <status>stable</status>
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
     <type>application</type>
-    <target>newLina</target>
-    <prepare>pre-install.xql</prepare>
+    <target>gerdracor</target>
+<!--    <prepare>pre-install.xql</prepare>-->
     <finish>post-install.xql</finish>
-    <permissions user="admin" group="dba" mode="rw-rw-r--"/>
-<deployed>2016-12-01T09:12:24.171+01:00</deployed>
+    <permissions xmlns:repo="http://exist-db.org/xquery/repo" user="lina" group="lina" mode="rw-rw-r--"/>
+    <changelog>
+        <change version="1.0">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>first version created at DLINA Hackathon Winter 2016</li>
+            </ul>
+        </change>
+    </changelog>
+
+<deployed>2016-12-02T12:03:06.056+01:00</deployed>
 </meta>

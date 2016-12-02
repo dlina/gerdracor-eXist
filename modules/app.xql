@@ -11,7 +11,7 @@ declare variable $app:sortKey := request:get-parameter('sortkey', '3');
 
 declare function app:table($node as node(), $model as map(*)) as map(*) {
     let $items :=
-        for $i in collection($config:data-root || "lina-tei")//tei:TEI
+        for $i in collection($config:data-root)//tei:TEI
         return $i
     return
         map { "data" := $items }
