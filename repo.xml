@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>nl</description>
+    <author>mgoebel</author>
+    <website/>
+    <status>stable</status>
+    <license>GNU-LGPL</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>newLina</target>
+    <prepare>pre-install.xql</prepare>
+    <finish>post-install.xql</finish>
+    <permissions user="admin" group="dba" mode="rw-rw-r--"/>
+<deployed>2016-12-01T09:12:24.171+01:00</deployed>
+</meta>
