@@ -2,13 +2,36 @@ xquery version "3.1";
 module namespace app="http://dlina.github.io/templates";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="http://dlina.github.io/config" at "config.xqm";
+import module namespace load="http://dlina.github.io/gerdracor-load" at "loadCorpus.xqm";
+import module namespace text="http://dlina.github.io/text" at "text.xqm";
+
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xhtml="http://www.w3.org/1999/xhtml";
 declare default element namespace "http://www.w3.org/1999/xhtml";
 
+declare function app:receiver($node as node(), $model as map(*)) {
+    let $parameters := request:get-parameter-names()
+return
+    for $parameter in $parameters
+    return
+        switch ($parameter)
+        case "reload" return
+            if(request:get-parameter($parameter, "false") = "true")
+            then load:gerdracor( $config:app-root )
+            else ()
+        case "text" return
+            if(request:get-parameter($parameter, "false") = "full")
+            then
+                let $tei := collection($config:data-root)//tei:idno[. = request:get-parameter("id", "false")]/ancestor::tei:TEI//tei:text
+                return
+                    text:fulltext( $tei )
+            else ()
+        default return ()
+};
+
 declare function app:menuitem($node as node(), $model as map(*)) {
 if( sm:get-user-groups( xmldb:get-current-user() ) = "dba" )
-then <xhtml:li><xhtml:a href="" title="reload from git">&#8634;</xhtml:a></xhtml:li>
+then <xhtml:li><xhtml:a href="?reload=true" title="reload from git">&#8634;</xhtml:a></xhtml:li>
 else ()
 };
 
@@ -54,18 +77,18 @@ declare function app:tableRow($node as node(), $model as map(*)) {
                     and $date - 10 gt number($i//tei:date[@type='written']/@when))
                 then number($i//tei:date[@type='written']/@when)
                 else $date,
-        $date := if(string($date) = ('', 'NaN')) then '1800' else $date
+        $date := if(string($date) = ('', 'NaN')) then '1800' else string($date)
         order by xs:integer($date)
         return
             <tr>
                 <td>{$i//tei:author/text()}</td>
                 <td>{($i//tei:title)[1]/text()}</td>
-                <td>{$i//tei:date[@type="print"]/string(@when)}</td>
-                <td>{$i//tei:date[@type="premiere"]/string(@when)}</td>
-                <td>{$i//tei:date[@type="written"]/string(@when)}</td>
+                <td>{$i//tei:date[@type="print"]/string(@when)}{if($date = $i//tei:date[@type="print"]/string(@when)) then "*" else ()}</td>
+                <td>{$i//tei:date[@type="premiere"]/string(@when)}{if($date = $i//tei:date[@type="premiere"]/string(@when)) then "*" else ()}</td>
+                <td>{$i//tei:date[@type="written"]/string(@when)}{if($date = $i//tei:date[@type="written"]/string(@when)) then "*" else ()}</td>
                 <td>{$i//tei:textClass/tei:keywords/tei:term[@type="genreTitle"]/text()}</td>
                 <td><a href="view.html?id={$i//tei:idno[@type="DLINA-ID"]/string(.)}">view</a></td>
-                <th>plain</th>
+                <th><a href="?text=full&amp;id={$i//tei:idno[@type="DLINA-ID"]/string(.)}">txt</a></th>
                 <th><a href="modules/xml-indent.xql?id={$i//tei:idno[@type="DLINA-ID"]/string(.)}" target="_blank">source</a></th>
                 {if( sm:get-user-groups( xmldb:get-current-user() ) = "dba" ) then <th>edit</th> else ()}
             </tr>}
