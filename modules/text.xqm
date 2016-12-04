@@ -51,9 +51,22 @@ declare function text:chunks($tei as element(tei:text), $chunkSize as xs:integer
  : text per character
  : 
  : @param a single tei:text element
- : @return plain text per speaker as xs:string()+
+ : @return a map with key: principal person name; value: xs:string
  :)
-declare function text:speech($tei as element(tei:text)) as xs:string+ {
+declare function text:speech($tei as element(tei:TEI)) as map(*) {
+map:new(
+    for $per in $tei//tei:particDesc/tei:listPerson/tei:person
+        let $name := ($per//@xml:id)[1]
+        let $match := string-join($per//@xml:id, '|')
+        let $utt :=$tei//tei:sp[matches(@who, $match)]
+        let $l := $utt/tei:p | $utt//tei:l
+(:        let $m := $l/node()[not(self::tei:hi)]:)
+(:        let $text := string-join($m, ' '):)
+        let $text := string-join($l, ' ')
+        return map:entry($name, replace($text, '\s+', ' '))
+)};
+
+declare function text:speech($tei as element(tei:text), $person as xs:string) as xs:string+ {
 for $tei in (collection($sourceCol))
     for $per in $tei//tei:particDesc/tei:listPerson/tei:person
         let $name := ($per//@xml:id)[1]

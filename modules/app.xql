@@ -19,13 +19,6 @@ return
             if(request:get-parameter($parameter, "false") = "true")
             then load:gerdracor( $config:app-root )
             else ()
-        case "text" return
-            if(request:get-parameter($parameter, "false") = "full")
-            then
-                let $tei := collection($config:data-root)//tei:idno[. = request:get-parameter("id", "false")]/ancestor::tei:TEI//tei:text
-                return
-                    text:fulltext( $tei )
-            else ()
         default return ()
 };
 
@@ -88,7 +81,7 @@ declare function app:tableRow($node as node(), $model as map(*)) {
                 <td>{$i//tei:date[@type="written"]/string(@when)}{if($date = $i//tei:date[@type="written"]/string(@when)) then "*" else ()}</td>
                 <td>{$i//tei:textClass/tei:keywords/tei:term[@type="genreTitle"]/text()}</td>
                 <td><a href="view.html?id={$i//tei:idno[@type="DLINA-ID"]/string(.)}">view</a></td>
-                <th><a href="?text=full&amp;id={$i//tei:idno[@type="DLINA-ID"]/string(.)}">txt</a></th>
+                <th><a href="text.xq?text=full&amp;id={$i//tei:idno[@type="DLINA-ID"]/string(.)}">txt</a></th>
                 <th><a href="modules/xml-indent.xql?id={$i//tei:idno[@type="DLINA-ID"]/string(.)}" target="_blank">source</a></th>
                 {if( sm:get-user-groups( xmldb:get-current-user() ) = "dba" ) then <th>edit</th> else ()}
             </tr>}
