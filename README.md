@@ -2,7 +2,7 @@
 Application for the eXist database for managing [GerDraCor - German Drama Corpus](https://github.com/dlina/gerdracor)
 
 ## build
-calling `ant` in the root directory of this repo will prepare a XAR package in the build directory.
+calling `ant` in the root directory of this repo will prepare a XAR package in the build directory. Prepared builds are available via: [![Build Status](https://ci.de.dariah.eu/jenkins/buildStatus/icon?job=Gerdracor)](https://ci.de.dariah.eu/jenkins/job/Gerdracor/)
 
 ## installation
 * install and start a recent version of [eXist-db](http://exist-db.org/exist/apps/homepage/index.html)
