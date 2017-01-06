@@ -1,9 +1,9 @@
 xquery version "3.1";
 
+import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
+
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace lina="http://lina.digital";
-
-
 
 declare function local:attrib($nodes) {
 for $node in $nodes
@@ -18,6 +18,7 @@ return
                 else 
                 if(string($attribute = "work:no")) then ()
                 else $attribute,
+            if($node/local-name() = "pb") then $node/@n else (),
             local:transform($node/node())
         }
     default return
@@ -30,7 +31,7 @@ return
     typeswitch ( $node )
     (: elements to be removed :)
     case element (tei:lb) return ()
-    case element (tei:pb) return ()
+(:    case element (tei:pb) return ():)
     case element (tei:milestone) return ()
     (: elements to be transformed :)
     case element( tei:div ) return
@@ -62,7 +63,7 @@ return
                 else (),
             local:addWho($node/node())
         })
-    case text() return 
+    case text() return
         text {replace($node, '\s+', ' ')}
     default return
         element {node-name($node)} {
@@ -77,6 +78,7 @@ map:new(
 (:    [@id="333"]:)
     )
 (:    [position() lt 21]:)
+    let $watchdog := console:log( $pos )
     let $filename := tokenize($lina/base-uri(), '/')[last()]
     let $textgrid-uri := "textgrid:" || ($lina//lina:source)[1]/substring-before(substring-after(., 'textgrid:'), '.')
     let $url := xs:anyURI("http://textgridrep.org/" || $textgrid-uri)
@@ -156,7 +158,9 @@ map:new(
 (:        return:)
 (:            string-join( ($sp/ancestor-or-self::tei:*/local-name()),  "/"):)
 (:    let $distinctPathes := distinct-values( $spXPath ):)
-    let $newLina := local:addWho($newLina)
+    let $newLina := document {
+    <?xml-stylesheet type="text/css" href="../schema/tei.css"?>,
+    local:addWho($newLina)}
     return
         map:entry($filename, $newLina))
 let $login := xmldb:login("/", 'admin', '')

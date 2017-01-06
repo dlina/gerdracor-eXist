@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" href="resources/datatables/datatables.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/datatables/Buttons-1.2.2/css/buttons.dataTables.min.css"/>
         
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>
@@ -25,19 +26,35 @@
             </div>
             <div class="navbar-collapse collapse" id="navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <!-- li>
                         <a href="index.html">Home</a>
-                    </li>
+                    </li -->
                     <li data-template="app:menuitem"/>
                 </ul>
-                <ul class="nav navbar-nav pull-right">
+                <!-- ul class="nav navbar-nav pull-right">
                     <li>
                         <a href="login.html">Login</a>
                     </li>
-                </ul>
+                </ul -->
             </div>
         </nav>
         <div id="content" class="container"/>
+        <div class="modal fade" id="downloadmodal" tabindex="-1" role="dialog" aria-labelledby="downloadmodalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                <h4 class="modal-title" id="downloadmodalLabel">Download</h4>
+              </div>
+              <div class="modal-body">
+                Test
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <footer>
             <a class="poweredby" href="http://exist-db.org">
                 <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>

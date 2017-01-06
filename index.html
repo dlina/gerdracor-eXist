@@ -8,9 +8,35 @@
                 <div data-template="app:tableRow"/>
             </table>
             <script type="text/javascript" charset="utf8" src="resources/datatables/datatables.js"/>
+            <script type="text/javascript" charset="utf8" src="resources/datatables/Select-1.2.0/js/dataTables.select.min.js"/>
+            <script type="text/javascript" charset="utf8" src="resources/datatables/Buttons-1.2.2/js/dataTables.buttons.min.js"/>
             <script>
+            
+                $.fn.dataTable.ext.buttons.loadXML = {
+                    className: 'buttons-alert',
+                 
+                    action: function ( e, dt, node, config ) {
+                        var selected= $('.selected').each(function(){ $( this ).attr("id") });
+                        alert( selected.toString() );
+                    }
+                };
+            
                 $(document).ready( function () {
-                    $('#table').DataTable( { paging: false, "order": []} );
+                    $('#table').DataTable( { 
+                        paging: false, 
+                        "order": [], 
+                        select: true,
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'selectAll',
+                            'selectNone',
+                            {
+                                extend: 'loadXML',
+                                text: 'download XML'
+                            }
+                        ]
+                    } 
+                    );
                 } );
             </script>
         </div>

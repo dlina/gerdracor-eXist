@@ -70,10 +70,11 @@ declare function app:tableRow($node as node(), $model as map(*)) {
                     and $date - 10 gt number($i//tei:date[@type='written']/@when))
                 then number($i//tei:date[@type='written']/@when)
                 else $date,
-        $date := if(string($date) = ('', 'NaN')) then '1800' else string($date)
+        $date := if(string($date) = ('', 'NaN')) then '1800' else string($date),
+        $id := $i//tei:idno[@type="DLINA-ID"]/string(.)
         order by xs:integer($date)
         return
-            <tr>
+            <tr id="{$id}">
                 <td>{$i//tei:author/text()}</td>
                 <td>{($i//tei:title)[1]/text()}</td>
                 <td>{$i//tei:date[@type="print"]/string(@when)}{if($date = $i//tei:date[@type="print"]/string(@when)) then "*" else ()}</td>
@@ -81,8 +82,8 @@ declare function app:tableRow($node as node(), $model as map(*)) {
                 <td>{$i//tei:date[@type="written"]/string(@when)}{if($date = $i//tei:date[@type="written"]/string(@when)) then "*" else ()}</td>
                 <td>{$i//tei:textClass/tei:keywords/tei:term[@type="genreTitle"]/text()}</td>
                 <td><a href="view.html?id={$i//tei:idno[@type="DLINA-ID"]/string(.)}">view</a></td>
-                <th><a href="text.xq?text=full&amp;id={$i//tei:idno[@type="DLINA-ID"]/string(.)}">txt</a></th>
-                <th><a href="modules/xml-indent.xql?id={$i//tei:idno[@type="DLINA-ID"]/string(.)}" target="_blank">source</a></th>
+                <td><a href="text.xq?text=full&amp;id={$id}" title="full text">t</a>|<a href="text.xq?text=speaker&amp;id={$id}" title="text per speaker (zip)">t/s</a></td>
+                <td><a href="modules/xml-indent.xql?id={$id}" target="_blank">source</a></td>
                 {if( sm:get-user-groups( xmldb:get-current-user() ) = "dba" ) then <th>edit</th> else ()}
             </tr>}
     </tbody>
