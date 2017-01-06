@@ -6,7 +6,7 @@ calling `ant` in the root directory of this repo will prepare a XAR package in t
 
 ## installation
 * install and start a recent version of [eXist-db](http://exist-db.org/exist/apps/homepage/index.html)
- * tested with 3.0RC2-develop (https://github.com/eXist-db/exist/tree/605c4e3f4c2232e42467f6658f8b5e61516c7159)
+ * tested with [3.0RC2-develop](https://github.com/eXist-db/exist/tree/605c4e3f4c2232e42467f6658f8b5e61516c7159)
 * direct a browser to [localhost:8080](http://localhost:8080)
 
 ## usage
