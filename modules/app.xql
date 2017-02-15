@@ -77,9 +77,9 @@ declare function app:tableRow($node as node(), $model as map(*)) {
             <tr id="{$id}">
                 <td>{$i//tei:author/text()}</td>
                 <td>{($i//tei:title)[1]/text()}</td>
-                <td>{$i//tei:date[@type="print"]/string(@when)}{if($date = $i//tei:date[@type="print"]/string(@when)) then "*" else ()}</td>
-                <td>{$i//tei:date[@type="premiere"]/string(@when)}{if($date = $i//tei:date[@type="premiere"]/string(@when)) then "*" else ()}</td>
-                <td>{$i//tei:date[@type="written"]/string(@when)}{if($date = $i//tei:date[@type="written"]/string(@when)) then "*" else ()}</td>
+                <td>{$i//tei:date[@type="print"]/string(@when)}{if( $i//tei:date[@type="print"]/string(@when) = $date ) then "*" else ()}</td>
+                <td>{$i//tei:date[@type="premiere"]/string(@when)}{if( $i//tei:date[@type="premiere"]/string(@when) = $date ) then "*" else ()}</td>
+                <td>{$i//tei:date[@type="written"]/string(@when)}{if( $i//tei:date[@type="written"]/string(@when) = $date ) then "*" else ()}</td>
                 <td>{$i//tei:textClass/tei:keywords/tei:term[@type="genreTitle"]/text()}</td>
                 <td><a href="view.html?id={$i//tei:idno[@type="DLINA-ID"]/string(.)}">view</a></td>
                 <td><a href="text.xq?text=full&amp;id={$id}" title="full text">t</a>|<a href="text.xq?text=speaker&amp;id={$id}" title="text per speaker (zip)">t/s</a></td>
